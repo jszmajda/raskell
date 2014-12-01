@@ -21,7 +21,7 @@ veryBasicParsing :: Spec
 veryBasicParsing = do
   variableParsing
   parensParsing
-  unopParsing
+  binopParsing
 
 variableParsing :: Spec
 variableParsing =
@@ -43,15 +43,15 @@ parensParsing =
     it "TODO parses blank parens" $ -- TODO FIXME
       regularParse parens "()" `shouldSatisfy` isLeft
 
-unopParsing :: Spec
-unopParsing = do
+binopParsing :: Spec
+binopParsing =
   describe "parsing plus" $ do
     it "parses 2 + 2" $
-      fullParse add "2+2" `shouldBe` UPlus 2 2
+      fullParse add "2+2" `shouldBe` BPlus 2 2
     it "parses 2 + 2 with whitespace" $
-      fullParse add "2 + 2" `shouldBe` UPlus 2 2
+      fullParse add "2 + 2" `shouldBe` BPlus 2 2
     it "parses 2.0 + 2.1" $
-      fullParse add "2.0+2.1" `shouldBe` UPlus 2.0 2.1
+      fullParse add "2.0+2.1" `shouldBe` BPlus 2.0 2.1
 
 main :: IO ()
 main = hspec spec

@@ -49,13 +49,13 @@ parens = do
    void $ char ')'
    return $ Parenthesis $ read e
 
-add :: Parser UPlus
+add :: Parser BPlus
 add = do
     lhs <- many1 number
     whitespace
     void $ char '+'
     whitespace
     rhs <- many1 number
-    return $ UPlus (read lhs) (read rhs)
+    return $ BPlus (read lhs) (read rhs)
   where
     number = digit <|> char '.' -- TODO should not consume . unless digit is after
