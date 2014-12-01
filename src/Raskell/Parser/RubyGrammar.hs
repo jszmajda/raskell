@@ -1,9 +1,9 @@
-module RubyGrammar where
+module Parser.RubyGrammar where
 
 import Text.Parsec
 import Text.Parsec.String (Parser)
 import Text.Parsec.Char
-import FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
+import Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
 import Data.Char
 
 {-

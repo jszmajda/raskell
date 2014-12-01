@@ -3,7 +3,7 @@ In this file is the source and explanation for the parsing functions
 which we've been using, and some limited notes about the wrappers and
 full types in Parsec.
 
-> module FunctionsAndTypesForParsing where
+> module Parser.FunctionsAndTypesForParsing where
 >
 > import Text.Parsec (ParseError, parse)
 > import Text.Parsec.String (Parser)
