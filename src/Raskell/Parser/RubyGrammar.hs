@@ -1,6 +1,7 @@
 module Raskell.Parser.RubyGrammar
 ( var
 , parens
+, add
 ) where
 
 import Text.Parsec
@@ -20,6 +21,15 @@ import Data.Char
   rubyword ::= letter { letter | digit | underscore }
 -}
 
+whitespace :: Parser ()
+whitespace = void $ many $ oneOf " \t"
+
+-- lexeme :: Parser a -> Parser b
+-- lexeme p = do
+--   x <- p
+--   whitespace
+--   return x
+
 var :: Parser String
 var = do
     fc <- firstChar
@@ -38,3 +48,14 @@ parens = do
    e <- many1 digit
    void $ char ')'
    return $ Parenthesis $ read e
+
+add :: Parser UPlus
+add = do
+    lhs <- many1 number
+    whitespace
+    void $ char '+'
+    whitespace
+    rhs <- many1 number
+    return $ UPlus (read lhs) (read rhs)
+  where
+    number = digit <|> char '.' -- TODO should not consume . unless digit is after

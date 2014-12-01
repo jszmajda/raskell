@@ -18,10 +18,13 @@ fullParse p = unbox . parse p ""
     unbox (Right a) = a
 
 veryBasicParsing :: Spec
-veryBasicParsing = variableParsing
+veryBasicParsing = do
+  variableParsing
+  parensParsing
+  unopParsing
 
 variableParsing :: Spec
-variableParsing = do
+variableParsing =
   describe "variable parsing" $ do
     it "parses an alpha variable" $
       fullParse var "abcd" `shouldBe` "abcd"
@@ -29,6 +32,9 @@ variableParsing = do
       fullParse var "abCd" `shouldBe` "abCd"
     it "does not parse a variable starting with a digit" $
       regularParse var "1abc" `shouldSatisfy` isLeft
+
+parensParsing :: Spec
+parensParsing =
   describe "parens parsing" $ do
     it "parses a number inside parens" $
       fullParse parens "(1)" `shouldBe` Parenthesis 1
@@ -36,6 +42,16 @@ variableParsing = do
       fullParse parens "(1234)" `shouldBe` Parenthesis 1234
     it "TODO parses blank parens" $ -- TODO FIXME
       regularParse parens "()" `shouldSatisfy` isLeft
+
+unopParsing :: Spec
+unopParsing = do
+  describe "parsing plus" $ do
+    it "parses 2 + 2" $
+      fullParse add "2+2" `shouldBe` UPlus 2 2
+    it "parses 2 + 2 with whitespace" $
+      fullParse add "2 + 2" `shouldBe` UPlus 2 2
+    it "parses 2.0 + 2.1" $
+      fullParse add "2.0+2.1" `shouldBe` UPlus 2.0 2.1
 
 main :: IO ()
 main = hspec spec
