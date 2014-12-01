@@ -7,9 +7,6 @@ name:                raskell
 -- The package version.  See the Haskell package versioning policy (PVP)
 -- for standards guiding when and how versions should be incremented.
 -- http://www.haskell.org/haskellwiki/Package_versioning_policy
--- PVP summary:      +-+------- breaking API changes
---                   | | +----- non-breaking API additions
---                   | | | +--- code changes with no API change
 version:             0.0.0.1
 
 -- A short (one-line) description of the package.
@@ -48,7 +45,10 @@ cabal-version:       >=1.10
 
 executable raskell
   -- .hs or .lhs file containing the Main module.
-  main-is:             src/Main.hs
+  main-is:             Main.hs
+
+  ghc-options:
+    -Wall
 
   -- Modules included in this executable, other than Main.
   -- other-modules:
@@ -63,7 +63,8 @@ executable raskell
     hspec ==2.1.*
 
   -- Directories containing source files.
-  -- hs-source-dirs:
+  hs-source-dirs:
+    src
 
   -- Base language which the package is written in.
   default-language:    Haskell2010

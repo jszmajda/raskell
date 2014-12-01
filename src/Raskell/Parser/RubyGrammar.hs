@@ -1,9 +1,9 @@
-module Parser.RubyGrammar where
+module Raskell.Parser.RubyGrammar where
 
 import Text.Parsec
 import Text.Parsec.String (Parser)
 import Text.Parsec.Char
-import Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
+import Raskell.Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
 import Data.Char
 
 {-
