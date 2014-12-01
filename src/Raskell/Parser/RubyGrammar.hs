@@ -9,7 +9,7 @@ import Text.Parsec.String (Parser)
 import Text.Parsec.Char
 import Control.Monad (void)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
-import Raskell.Parser.Lexemes
+import Raskell.Parser.ASTNodes
 import Data.Char
 
 {-

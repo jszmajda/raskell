@@ -1,4 +1,4 @@
-module Raskell.Parser.Lexemes
+module Raskell.Parser.ASTNodes
 ( Parenthesis (..)
 , UPlus (..)
 ) where

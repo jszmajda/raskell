@@ -8,7 +8,7 @@ import Data.Either
 import Text.Parsec.Prim (Stream, ParsecT)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse)
 import Raskell.Parser.RubyGrammar
-import Raskell.Parser.Lexemes
+import Raskell.Parser.ASTNodes
 
 fullParse :: Parser a -> String -> a
 fullParse p = unbox . parse p ""
