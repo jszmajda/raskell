@@ -1,9 +1,14 @@
-module Raskell.Parser.RubyGrammar where
+module Raskell.Parser.RubyGrammar
+( var
+, parens
+) where
 
 import Text.Parsec
 import Text.Parsec.String (Parser)
 import Text.Parsec.Char
+import Control.Monad (void)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
+import Raskell.Parser.Lexemes
 import Data.Char
 
 {-
@@ -26,3 +31,10 @@ var = do
     lcLetters   = '_' : ['a'..'z']
     ucLetters   = ['A'..'Z']
     numbers     = ['0'..'9']
+
+parens :: Parser Parenthesis
+parens = do
+   void $ char '('
+   e <- many1 digit
+   void $ char ')'
+   return $ Parenthesis $ read e

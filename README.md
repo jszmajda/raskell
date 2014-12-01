@@ -14,7 +14,7 @@ cabal test
 From the root of the repo:
 
 ```
-runhaskell -package-conf=.cabal-sandbox/x86_64-osx-ghc-7.8.3-packages.conf.d -isrc -itest test/Raskell/Parser/RubyGrammarSpec.hs
+runhaskell -package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.3-packages.conf.d -isrc -itest test/Raskell/Parser/RubyGrammarSpec.hs
 ```
 
 # TODO

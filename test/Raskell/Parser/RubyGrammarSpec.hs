@@ -8,6 +8,7 @@ import Data.Either
 import Text.Parsec.Prim (Stream, ParsecT)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse)
 import Raskell.Parser.RubyGrammar
+import Raskell.Parser.Lexemes
 
 fullParse :: Parser a -> String -> a
 fullParse p = unbox . parse p ""
@@ -21,8 +22,6 @@ veryBasicParsing = variableParsing
 
 variableParsing :: Spec
 variableParsing = do
-  describe "variable parsing" $
-    it "stuff" $ 4 `shouldBe` 4
   describe "variable parsing" $ do
     it "parses an alpha variable" $
       fullParse var "abcd" `shouldBe` "abcd"
@@ -30,6 +29,13 @@ variableParsing = do
       fullParse var "abCd" `shouldBe` "abCd"
     it "does not parse a variable starting with a digit" $
       regularParse var "1abc" `shouldSatisfy` isLeft
+  describe "parens parsing" $ do
+    it "parses a number inside parens" $
+      fullParse parens "(1)" `shouldBe` Parenthesis 1
+    it "parses a long number inside parens" $
+      fullParse parens "(1234)" `shouldBe` Parenthesis 1234
+    it "TODO parses blank parens" $ -- TODO FIXME
+      regularParse parens "()" `shouldSatisfy` isLeft
 
 main :: IO ()
 main = hspec spec
