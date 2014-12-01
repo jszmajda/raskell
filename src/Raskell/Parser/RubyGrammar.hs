@@ -21,6 +21,8 @@ var = do
     rest <- many varChars
     return $ fc : rest
   where
-    firstChar = oneOf letters
-    varChars  = oneOf (letters ++ ['0'..'9'])
-    letters   = '_' : ['a'..'z']
+    firstChar = oneOf lcLetters
+    varChars  = oneOf (lcLetters ++ ucLetters ++ numbers)
+    lcLetters   = '_' : ['a'..'z']
+    ucLetters   = ['A'..'Z']
+    numbers     = ['0'..'9']
