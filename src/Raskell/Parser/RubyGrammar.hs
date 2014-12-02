@@ -2,6 +2,7 @@ module Raskell.Parser.RubyGrammar
 ( var
 , parens
 , add
+, numeric
 ) where
 
 import Text.Parsec
@@ -10,6 +11,7 @@ import Text.Parsec.Char
 import Control.Monad (void)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
 import Raskell.Parser.ASTNodes
+import Raskell.Parser.Whitespace (lexeme)
 import Data.Char
 
 {-
@@ -21,20 +23,32 @@ import Data.Char
   rubyword ::= letter { letter | digit | underscore }
 -}
 
-whitespace :: Parser ()
-whitespace = void $ many $ oneOf " \t"
+numeric :: Parser Expr
+numeric = try numericFloat <|> numericInt
 
--- lexeme :: Parser a -> Parser b
--- lexeme p = do
---   x <- p
---   whitespace
---   return x
+numericInt :: Parser Expr
+numericInt = do
+    x <- lexeme $ many1 number
+    return $ Int $ read (filtered x)
+  where
+    filtered = filter (/= '_')
+    number = digit <|> char '_'
 
-var :: Parser String
+numericFloat :: Parser Expr
+numericFloat = do
+    x <- lexeme $ many1 number
+    void $ lexeme $ char '.'
+    y <- lexeme $ many1 number
+    return $ Float $ read $ filtered (x ++ "." ++ y)
+  where
+    filtered = filter (/= '_')
+    number = digit <|> char '_'  -- TODO should not consume . unless digit is after
+
+var :: Parser Expr
 var = do
-    fc <- firstChar
+    fc <- lexeme firstChar
     rest <- many varChars
-    return $ fc : rest
+    return $ Var (fc : rest)
   where
     firstChar = oneOf lcLetters
     varChars  = oneOf (lcLetters ++ ucLetters ++ numbers)
@@ -42,20 +56,16 @@ var = do
     ucLetters   = ['A'..'Z']
     numbers     = ['0'..'9']
 
-parens :: Parser Parenthesis
+parens :: Parser Expr
 parens = do
-   void $ char '('
-   e <- many1 digit
-   void $ char ')'
-   return $ Parenthesis $ read e
+   void $ lexeme $ char '('
+   e <- numeric
+   void $ lexeme $ char ')'
+   return $ Parens e
 
-add :: Parser BPlus
+add :: Parser Expr
 add = do
-    lhs <- many1 number
-    whitespace
-    void $ char '+'
-    whitespace
-    rhs <- many1 number
-    return $ BPlus (read lhs) (read rhs)
-  where
-    number = digit <|> char '.' -- TODO should not consume . unless digit is after
+    lhs <- lexeme numeric
+    void $ lexeme $ char '+'
+    rhs <- lexeme numeric
+    return $ BPlus lhs rhs

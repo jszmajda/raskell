@@ -1,10 +1,10 @@
 module Raskell.Parser.ASTNodes
-( Parenthesis (..)
-, BPlus (..)
+( Expr (..)
 ) where
 
-data Parenthesis = Parenthesis Integer
-  deriving (Show, Eq)
-
-data BPlus = BPlus Double Double
-  deriving (Show, Eq)
+data Expr = Int Integer
+          | Float Double
+          | Var String
+          | BPlus Expr Expr
+          | Parens Expr
+            deriving (Show, Eq)
