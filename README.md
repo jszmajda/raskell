@@ -21,9 +21,8 @@ runhaskell -package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.3-packages.conf.d -isrc
 
 * parser
 * all the rest!
-* look into [https://www.haskell.org/alex/](Alex)
-    * [https://github.com/osa1/language-lua/blob/master/src/Text/Parsec/LTok.hs](Lua parser with Alex)
-* look into [https://www.haskell.org/happy/doc/html/index.html](happy)
-* read [https://github.com/JakeWheat/intro_to_parsing](intro to
-  parsing)
-* read [http://hspec.github.io/](hspec)
+* look into [Alex](https://www.haskell.org/alex/)
+    * [Lua parser with Alex](https://github.com/osa1/language-lua/blob/master/src/Text/Parsec/LTok.hs)
+* look into [happy](https://www.haskell.org/happy/doc/html/index.html)
+* read [intro to parsing](https://github.com/JakeWheat/intro_to_parsing)
+* read [hspec](http://hspec.github.io/)
