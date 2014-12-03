@@ -3,6 +3,7 @@ module Raskell.Parser.RubyGrammar
 , parens
 , add
 , numeric
+, expr
 ) where
 
 import Text.Parsec
@@ -22,6 +23,17 @@ import Data.Char
   unop  ::= rubyword
   rubyword ::= letter { letter | digit | underscore }
 -}
+
+expr :: Parser Expr
+expr = term' `chainl1` plus
+  where
+    plus = do
+      void $ lexeme $ char '+'
+      return BPlus
+    term' = term expr
+
+term :: Parser Expr -> Parser Expr
+term expr' = numeric <|> var <|> parens' expr'
 
 numeric :: Parser Expr
 numeric = try numericFloat <|> numericInt
@@ -57,15 +69,17 @@ var = do
     numbers     = ['0'..'9']
 
 parens :: Parser Expr
-parens = do
+parens = parens' expr
+parens' :: Parser Expr -> Parser Expr
+parens' expr' = do
    void $ lexeme $ char '('
-   e <- numeric
+   e <- expr'
    void $ lexeme $ char ')'
    return $ Parens e
 
 add :: Parser Expr
 add = do
-    lhs <- lexeme numeric
+    lhs <- lexeme (term expr)
     void $ lexeme $ char '+'
-    rhs <- lexeme numeric
+    rhs <- lexeme expr
     return $ BPlus lhs rhs

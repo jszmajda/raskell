@@ -24,6 +24,7 @@ veryBasicParsing = do
   variableParsing
   parensParsing
   binopParsing
+  exprParsing
 
 numericParsing :: Spec
 numericParsing =
@@ -56,6 +57,10 @@ variableParsing =
       fullParse var "abCd" `shouldBe` Var "abCd"
     it "does not parse a variable starting with a digit" $
       regularParse var "1abc" `shouldSatisfy` isLeft
+    it "parses a variable with a leading _" $
+      fullParse var "_abc" `shouldBe` Var "_abc"
+    it "parses a variable with a leading __" $
+      fullParse var "__abc" `shouldBe` Var "__abc"
 
 parensParsing :: Spec
 parensParsing =
@@ -85,6 +90,18 @@ binopParsing =
       fullParse add " 2 + 2 " `shouldBe` BPlus (Int 2) (Int 2)
     it "parses 2.0 + 2.1" $
       fullParse add "2.0+2.1" `shouldBe` BPlus (Float 2.0) (Float 2.1)
+
+exprParsing :: Spec
+exprParsing =
+  describe "expression parsing" $ do
+    it "parses 2 + 2" $
+      fullParse expr "2 + 2" `shouldBe` BPlus (Int 2) (Int 2)
+    it "parses parens with add" $
+      fullParse expr "(2 +3)" `shouldBe` Parens (BPlus (Int 2) (Int 3))
+    it "parses float with add" $
+      fullParse expr "(2.0 +3)" `shouldBe` Parens (BPlus (Float 2.0) (Int 3))
+    it "parses add with var" $
+      fullParse expr "(2.0 + a)" `shouldBe` Parens (BPlus (Float 2.0) (Var "a"))
 
 main :: IO ()
 main = hspec spec
