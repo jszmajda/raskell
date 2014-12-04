@@ -40,21 +40,22 @@ numeric = try numericFloat <|> numericInt
 
 numericInt :: Parser Expr
 numericInt = do
-    x <- lexeme $ many1 number
-    return $ Int $ read (filtered x)
-  where
-    filtered = filter (/= '_')
-    number = digit <|> char '_'
+  x <- rubyNumber
+  return $ Int $ read x
 
 numericFloat :: Parser Expr
 numericFloat = do
-    x <- lexeme $ many1 number
-    void $ lexeme $ char '.'
-    y <- lexeme $ many1 number
-    return $ Float $ read $ filtered (x ++ "." ++ y)
+  x <- rubyNumber
+  void $ lexeme $ char '.'
+  y <- rubyNumber
+  return $ Float $ read (x ++ "." ++ y)
+
+rubyNumber :: Parser String
+rubyNumber = do
+    n <- lexeme $ many1 nums
+    return $ filter (/= '_') n
   where
-    filtered = filter (/= '_')
-    number = digit <|> char '_'  -- TODO should not consume . unless digit is after
+    nums = digit <|> char '_'
 
 var :: Parser Expr
 var = do
