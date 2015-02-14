@@ -1,4 +1,4 @@
-module Raskell.Parser.RubyGrammar
+module Raskell.Parser.RubyParser
 ( var
 , parens
 , add

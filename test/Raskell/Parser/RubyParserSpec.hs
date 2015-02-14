@@ -1,4 +1,4 @@
-module Raskell.Parser.RubyGrammarSpec where
+module Raskell.Parser.RubyParserSpec where
 
 import SpecHelper
 import Text.Parsec (parse)
@@ -7,7 +7,7 @@ import Text.Parsec.Error
 import Data.Either
 import Text.Parsec.Prim (Stream, ParsecT)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse)
-import Raskell.Parser.RubyGrammar
+import Raskell.Parser.RubyParser
 import Raskell.Parser.Whitespace (whitespace)
 import Raskell.Parser.ASTNodes
 
@@ -105,6 +105,5 @@ exprParsing =
 
 main :: IO ()
 main = hspec spec
-
 spec :: Spec
 spec = veryBasicParsing
