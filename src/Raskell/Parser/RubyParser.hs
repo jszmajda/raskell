@@ -45,14 +45,14 @@ numeric = try numericFloat <|> numericInt
 numericInt :: Parser Expr
 numericInt = do
   x <- rubyNumber
-  return $ Int $ read x
+  return $ RbInt $ read x
 
 numericFloat :: Parser Expr
 numericFloat = do
   x <- rubyNumber
   void $ lexeme $ char '.'
   y <- rubyNumber
-  return $ Float $ read (x ++ "." ++ y)
+  return $ RbFloat $ read (x ++ "." ++ y)
 
 rubyNumber :: Parser String
 rubyNumber = do

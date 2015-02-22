@@ -2,8 +2,8 @@ module Raskell.Parser.ASTNodes
 ( Expr (..)
 ) where
 
-data Expr = Int Integer
-          | Float Double
+data Expr = RbInt Integer
+          | RbFloat Double
           | RbString String
           | BPlus Expr Expr
           | Parens Expr
