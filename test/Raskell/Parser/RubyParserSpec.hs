@@ -21,7 +21,8 @@ fullParse p = unbox . parse (whitespace >> p) ""
 veryBasicParsing :: Spec
 veryBasicParsing = do
   numericParsing
-  variableParsing
+  basicDblQuotedStringParsing
+  rubyTokenParsing
   parensParsing
   binopParsing
   exprParsing
@@ -43,24 +44,24 @@ numericParsing =
       fullParse numeric "1_2.23" `shouldBe` Float 12.23
     it "parses a simple float with underscores on the right" $
       fullParse numeric "1_2.2_3" `shouldBe` Float 12.23
-    it "parses variables with upcase innards" $
-      fullParse var "abCd" `shouldBe` Var "abCd"
-    it "does not parse a variable starting with a digit" $
-      regularParse var "1abc" `shouldSatisfy` isLeft
+    it "parses rubyTokens with upcase innards" $
+      fullParse rubyToken "abCd" `shouldBe` RubyToken "abCd" []
+    it "does not parse a rubyToken starting with a digit" $
+      regularParse rubyToken "1abc" `shouldSatisfy` isLeft
 
-variableParsing :: Spec
-variableParsing =
-  describe "variable parsing" $ do
-    it "parses an alpha variable" $
-      fullParse var "abcd" `shouldBe` Var "abcd"
-    it "parses variables with upcase innards" $
-      fullParse var "abCd" `shouldBe` Var "abCd"
-    it "does not parse a variable starting with a digit" $
-      regularParse var "1abc" `shouldSatisfy` isLeft
-    it "parses a variable with a leading _" $
-      fullParse var "_abc" `shouldBe` Var "_abc"
-    it "parses a variable with a leading __" $
-      fullParse var "__abc" `shouldBe` Var "__abc"
+rubyTokenParsing :: Spec
+rubyTokenParsing =
+  describe "rubyToken parsing" $ do
+    it "parses an alpha rubyToken" $
+      fullParse rubyToken "abcd" `shouldBe` RubyToken "abcd" []
+    it "parses rubyTokens with upcase innards" $
+      fullParse rubyToken "abCd" `shouldBe` RubyToken "abCd" []
+    it "does not parse a rubyToken starting with a digit" $
+      regularParse rubyToken "1abc" `shouldSatisfy` isLeft
+    it "parses a rubyToken with a leading _" $
+      fullParse rubyToken "_abc" `shouldBe` RubyToken "_abc" []
+    it "parses a rubyToken with a leading __" $
+      fullParse rubyToken "__abc" `shouldBe` RubyToken "__abc" []
 
 parensParsing :: Spec
 parensParsing =
@@ -91,6 +92,12 @@ binopParsing =
     it "parses 2.0 + 2.1" $
       fullParse add "2.0+2.1" `shouldBe` BPlus (Float 2.0) (Float 2.1)
 
+basicDblQuotedStringParsing :: Spec
+basicDblQuotedStringParsing =
+  describe "parsing basic double-quoted strings" $ do
+    it "parse \"hello\"" $
+      fullParse basicDblQuotSring "\"hello\"" `shouldBe` String "hello"
+
 exprParsing :: Spec
 exprParsing =
   describe "expression parsing" $ do
@@ -100,8 +107,12 @@ exprParsing =
       fullParse expr "(2 +3)" `shouldBe` Parens (BPlus (Int 2) (Int 3))
     it "parses float with add" $
       fullParse expr "(2.0 +3)" `shouldBe` Parens (BPlus (Float 2.0) (Int 3))
-    it "parses add with var" $
-      fullParse expr "(2.0 + a)" `shouldBe` Parens (BPlus (Float 2.0) (Var "a"))
+    it "parses add with rubyToken" $
+      fullParse expr "(2.0 + a)" `shouldBe` Parens (BPlus (Float 2.0) (RubyToken "a" []))
+    it "parses a simple command with a num" $
+      fullParse expr "print 4" `shouldBe` RubyToken "print" [Int 4]
+--     it "parses a simple command with a string" $
+--       fullParse expr "print \"Hello World\"" `shouldBe` RubyToken "print" [String "Hello World"]
 
 main :: IO ()
 main = hspec spec

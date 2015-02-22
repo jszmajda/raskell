@@ -7,8 +7,8 @@ import SpecHelper
 commandLineSpec :: Spec
 commandLineSpec =
   describe "running" $ do
-    it "takes a file" $ do
-      M.runRuby "puts \"Hello World\"" `shouldBe` "Hello World\n"
+    it "works" $ do
+      M.runRuby "puts \"Hello World\"" `shouldReturn` "Hello World\n"
 
 main :: IO ()
 main = hspec spec

@@ -1,5 +1,5 @@
 module Raskell.Parser.RubyParser
-( var
+( rubyToken
 , parens
 , add
 , numeric
@@ -16,9 +16,9 @@ import Raskell.Parser.Whitespace (lexeme)
 import Data.Char
 
 {-
-  stmt  ::= nop | var = expr
-  expr  ::= var | const | unop expr | expr duop expr
-  var   ::= rubyword
+  stmt  ::= nop | rubyToken = expr
+  expr  ::= rubyToken | const | unop expr | expr duop expr
+  rubyToken   ::= rubyword
   const ::= rubyword
   unop  ::= rubyword
   rubyword ::= letter { letter | digit | underscore }
@@ -33,7 +33,7 @@ expr = term' `chainl1` plus
     term' = term expr
 
 term :: Parser Expr -> Parser Expr
-term expr' = numeric <|> var <|> parens' expr'
+term expr' = numeric <|> rubyToken <|> parens' expr'
 
 numeric :: Parser Expr
 numeric = try numericFloat <|> numericInt
@@ -57,11 +57,12 @@ rubyNumber = do
   where
     nums = digit <|> char '_'
 
-var :: Parser Expr
-var = do
+rubyToken :: Parser Expr
+rubyToken = do
     fc <- lexeme firstChar
-    rest <- many varChars
-    return $ Var (fc : rest)
+    rest <- lexeme $ many varChars
+    args <- many expr
+    return $ RubyToken (fc : rest) args
   where
     firstChar = oneOf lcLetters
     varChars  = oneOf (lcLetters ++ ucLetters ++ numbers)
