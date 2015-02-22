@@ -17,6 +17,12 @@ From the root of the repo:
 runhaskell -package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.3-packages.conf.d -isrc -itest Spec
 ```
 
+## Getting a useful ghci
+
+```
+ghci -package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.4-packages.conf.d -isrc
+```
+
 # TODO
 
 * parser

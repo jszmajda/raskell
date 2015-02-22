@@ -4,6 +4,7 @@ module Raskell.Parser.ASTNodes
 
 data Expr = Int Integer
           | Float Double
+          | RbString String
           | BPlus Expr Expr
           | Parens Expr
           | RubyToken String [Expr]

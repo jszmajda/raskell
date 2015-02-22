@@ -96,7 +96,7 @@ basicDblQuotedStringParsing :: Spec
 basicDblQuotedStringParsing =
   describe "parsing basic double-quoted strings" $ do
     it "parse \"hello\"" $
-      fullParse basicDblQuotSring "\"hello\"" `shouldBe` String "hello"
+      fullParse basicDblQuotSring "\"hello\"" `shouldBe` RbString "hello"
 
 exprParsing :: Spec
 exprParsing =
@@ -111,8 +111,8 @@ exprParsing =
       fullParse expr "(2.0 + a)" `shouldBe` Parens (BPlus (Float 2.0) (RubyToken "a" []))
     it "parses a simple command with a num" $
       fullParse expr "print 4" `shouldBe` RubyToken "print" [Int 4]
---     it "parses a simple command with a string" $
---       fullParse expr "print \"Hello World\"" `shouldBe` RubyToken "print" [String "Hello World"]
+    it "parses a simple command with a string" $
+      fullParse expr "print \"Hello World\"" `shouldBe` RubyToken "print" [RbString "Hello World"]
 
 main :: IO ()
 main = hspec spec

@@ -4,6 +4,7 @@ module Raskell.Parser.RubyParser
 , add
 , numeric
 , expr
+, basicDblQuotSring
 ) where
 
 import Text.Parsec
@@ -33,7 +34,10 @@ expr = term' `chainl1` plus
     term' = term expr
 
 term :: Parser Expr -> Parser Expr
-term expr' = numeric <|> rubyToken <|> parens' expr'
+term expr' =  numeric
+          <|> basicDblQuotSring
+          <|> rubyToken
+          <|> parens' expr'
 
 numeric :: Parser Expr
 numeric = try numericFloat <|> numericInt
@@ -56,6 +60,25 @@ rubyNumber = do
     return $ filter (/= '_') n
   where
     nums = digit <|> char '_'
+
+basicDblQuotSring :: Parser Expr
+basicDblQuotSring = do
+    lexeme $ char '"'
+    body <- many character
+    char '"'
+    return $ RbString $ concat body
+  where
+    escape :: Parser String
+    escape = do
+      d <- char '\\'
+      c <- oneOf "\\\"0nrvtbf" -- all the characters which can be escaped
+      return [d, c]
+
+    nonEscape :: Parser Char
+    nonEscape = noneOf "\\\"\0\n\r\v\t\b\f"
+
+    character :: Parser String
+    character = fmap return nonEscape <|> escape
 
 rubyToken :: Parser Expr
 rubyToken = do
