@@ -10,18 +10,11 @@ import Raskell.Parser.FunctionsAndTypesForParsing (regularParse)
 import Raskell.Parser.RubyParser
 import Raskell.Parser.Whitespace (whitespace)
 import Raskell.Parser.ASTNodes
-
-fullParse :: Parser a -> String -> a
-fullParse p = unbox . parse (whitespace >> p) ""
-  where
-    unbox :: Either ParseError a -> a
-    unbox (Left _) = error "failed"
-    unbox (Right a) = a
+import Raskell.Parser.ParserSpecsHelpers
 
 veryBasicParsing :: Spec
 veryBasicParsing = do
   numericParsing
-  basicDblQuotedStringParsing
   rubyTokenParsing
   parensParsing
   binopParsing
@@ -91,12 +84,6 @@ binopParsing =
       fullParse add " 2 + 2 " `shouldBe` BPlus (RbInt 2) (RbInt 2)
     it "parses 2.0 + 2.1" $
       fullParse add "2.0+2.1" `shouldBe` BPlus (RbFloat 2.0) (RbFloat 2.1)
-
-basicDblQuotedStringParsing :: Spec
-basicDblQuotedStringParsing =
-  describe "parsing basic double-quoted strings" $ do
-    it "parse \"hello\"" $
-      fullParse basicDblQuotSring "\"hello\"" `shouldBe` RbString "hello"
 
 exprParsing :: Spec
 exprParsing =
