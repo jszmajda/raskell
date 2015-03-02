@@ -13,7 +13,8 @@ data World = World { _world :: (M.Map String RbObject) } deriving (Show, Eq)
 emptyWorld :: World
 emptyWorld = World M.empty
 
-runExpr :: [Expr] -> World -> World
-runExpr []        w = w
---runExpr (RubyToken "foo" []) w = w
-runExpr _         w = w
+runExpr :: [Expr] -> World -> ([Expr], World)
+runExpr []                         w = ([], w)
+-- runExpr ((RubyToken tok exprs):xs) w = (xs, w)
+runExpr ((RbInt x):xs)             w = (xs, w)
+runExpr xs                         w = (xs, w)

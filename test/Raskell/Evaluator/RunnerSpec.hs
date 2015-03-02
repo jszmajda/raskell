@@ -8,7 +8,7 @@ noopSpec :: Spec
 noopSpec =
   describe "evaluating noops against a world" $ do
     it "does nothing for an int" $
-      runExpr [(RbInt 4)] emptyWorld `shouldBe` emptyWorld
+      runExpr [(RbInt 4)] emptyWorld `shouldBe` ([], emptyWorld)
 
 main :: IO ()
 main = hspec spec
