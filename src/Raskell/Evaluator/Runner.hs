@@ -1,5 +1,6 @@
 module Raskell.Evaluator.Runner
 (
+  World (..),
   runExpr,
   emptyWorld
 ) where
@@ -17,4 +18,4 @@ runExpr :: [Expr] -> World -> ([Expr], World)
 runExpr []                         w = ([], w)
 -- runExpr ((RubyToken tok exprs):xs) w = (xs, w)
 runExpr ((RbInt x):xs)             w = (xs, w)
-runExpr xs                         w = (xs, w)
+runExpr (x:xs)                     w = (xs, w) -- eat it, just eat it

@@ -8,4 +8,5 @@ data Expr = RbInt Integer
           | BPlus Expr Expr
           | Parens Expr
           | RubyToken String [Expr]
+          | VarAssign String Expr
             deriving (Show, Eq)
