@@ -2,7 +2,7 @@ module Raskell.Parser.RbStringsSpec where
 
 import SpecHelper
 import Raskell.Parser.ParserSpecsHelpers
-import Raskell.Parser.ASTNodes
+import Raskell.ASTNodes
 import Raskell.Parser.RbStrings
 
 basicDblQuotedStringParsing :: Spec

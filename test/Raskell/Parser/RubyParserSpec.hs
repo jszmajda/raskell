@@ -9,7 +9,7 @@ import Text.Parsec.Prim (Stream, ParsecT)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse)
 import Raskell.Parser.RubyParser
 import Raskell.Parser.Whitespace (whitespace)
-import Raskell.Parser.ASTNodes
+import Raskell.ASTNodes
 import Raskell.Parser.ParserSpecsHelpers
 
 veryBasicParsing :: Spec

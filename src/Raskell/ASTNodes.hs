@@ -1,4 +1,4 @@
-module Raskell.Parser.ASTNodes
+module Raskell.ASTNodes
 ( Expr (..)
 ) where
 

@@ -12,7 +12,7 @@ import Text.Parsec.Char
 import Control.Monad (void)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
 import Raskell.Parser.RbStrings
-import Raskell.Parser.ASTNodes
+import Raskell.ASTNodes
 import Raskell.Parser.Whitespace (lexeme)
 import Data.Char
 
