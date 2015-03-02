@@ -12,7 +12,7 @@ import Text.Parsec.Char
 import Control.Monad (void)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
 import Raskell.Parser.RbStrings
-import Raskell.ASTNodes
+import qualified Raskell.ASTNodes as AST
 import Raskell.Parser.Whitespace (lexeme)
 import Data.Char
 
@@ -25,34 +25,34 @@ import Data.Char
   rubyword ::= letter { letter | digit | underscore }
 -}
 
-expr :: Parser Expr
+expr :: Parser AST.Expr
 expr = term' `chainl1` plus
   where
     plus = do
       void $ lexeme $ char '+'
-      return BPlus
+      return AST.BPlus
     term' = term expr
 
-term :: Parser Expr -> Parser Expr
+term :: Parser AST.Expr -> Parser AST.Expr
 term expr' =  numeric
           <|> rbString
           <|> rubyToken
           <|> parens' expr'
 
-numeric :: Parser Expr
+numeric :: Parser AST.Expr
 numeric = try numericFloat <|> numericInt
 
-numericInt :: Parser Expr
+numericInt :: Parser AST.Expr
 numericInt = do
   x <- rubyNumber
-  return $ RbInt $ read x
+  return $ AST.Int $ read x
 
-numericFloat :: Parser Expr
+numericFloat :: Parser AST.Expr
 numericFloat = do
   x <- rubyNumber
   void $ lexeme $ char '.'
   y <- rubyNumber
-  return $ RbFloat $ read (x ++ "." ++ y)
+  return $ AST.Float $ read (x ++ "." ++ y)
 
 rubyNumber :: Parser String
 rubyNumber = do
@@ -62,12 +62,12 @@ rubyNumber = do
     nums = digit <|> char '_'
 
 
-rubyToken :: Parser Expr
+rubyToken :: Parser AST.Expr
 rubyToken = do
     fc <- lexeme firstChar
     rest <- lexeme $ many varChars
     args <- many expr
-    return $ RubyToken (fc : rest) args
+    return $ AST.Token (fc : rest) args
   where
     firstChar = oneOf lcLetters
     varChars  = oneOf (lcLetters ++ ucLetters ++ numbers)
@@ -75,18 +75,18 @@ rubyToken = do
     ucLetters   = ['A'..'Z']
     numbers     = ['0'..'9']
 
-parens :: Parser Expr
+parens :: Parser AST.Expr
 parens = parens' expr
-parens' :: Parser Expr -> Parser Expr
+parens' :: Parser AST.Expr -> Parser AST.Expr
 parens' expr' = do
    void $ lexeme $ char '('
    e <- expr'
    void $ lexeme $ char ')'
-   return $ Parens e
+   return $ AST.Parens e
 
-add :: Parser Expr
+add :: Parser AST.Expr
 add = do
     lhs <- lexeme (term expr)
     void $ lexeme $ char '+'
     rhs <- lexeme expr
-    return $ BPlus lhs rhs
+    return $ AST.BPlus lhs rhs

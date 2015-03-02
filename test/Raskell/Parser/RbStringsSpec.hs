@@ -2,14 +2,14 @@ module Raskell.Parser.RbStringsSpec where
 
 import SpecHelper
 import Raskell.Parser.ParserSpecsHelpers
-import Raskell.ASTNodes
+import qualified Raskell.ASTNodes as AST
 import Raskell.Parser.RbStrings
 
 basicDblQuotedStringParsing :: Spec
 basicDblQuotedStringParsing =
-  describe "parsing basic double-quoted strings" $ do
+  describe "parsing basic double-quoted strings" $
     it "parse \"hello\"" $
-      fullParse rbString "\"hello\"" `shouldBe` RbString "hello"
+      fullParse rbString "\"hello\"" `shouldBe` AST.String "hello"
 
 main :: IO ()
 main = hspec spec

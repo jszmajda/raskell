@@ -2,11 +2,11 @@ module Raskell.ASTNodes
 ( Expr (..)
 ) where
 
-data Expr = RbInt Integer
-          | RbFloat Double
-          | RbString String
+data Expr = Int Integer
+          | Float Double
+          | String String
           | BPlus Expr Expr
           | Parens Expr
-          | RubyToken String [Expr]
           | VarAssign String Expr
+          | Token String [Expr]
             deriving (Show, Eq)

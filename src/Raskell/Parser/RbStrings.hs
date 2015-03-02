@@ -4,10 +4,10 @@ module Raskell.Parser.RbStrings
 import Text.Parsec
 import Text.Parsec.String (Parser)
 import Text.Parsec.Char
-import Raskell.ASTNodes
+import qualified Raskell.ASTNodes as AST
 import Raskell.Parser.Whitespace (lexeme)
 
-rbString :: Parser Expr
+rbString :: Parser AST.Expr
 rbString = basicDblQuotSring
 
 escape :: Parser String
@@ -22,9 +22,9 @@ nonEscape = noneOf "\\\"\0\n\r\v\t\b\f"
 character :: Parser String
 character = fmap return nonEscape <|> escape
 
-basicDblQuotSring :: Parser Expr
+basicDblQuotSring :: Parser AST.Expr
 basicDblQuotSring = do
   lexeme $ char '"'
   body <- many character
   char '"'
-  return $ RbString $ concat body
+  return $ AST.String $ concat body
