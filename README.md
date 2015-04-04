@@ -1,6 +1,6 @@
 # Raskell
 
-Lots to do!
+Lots to do!, Waffling about [Waffle](https://waffle.io/joshsz/raskell)
 
 # Getting Started
 
