@@ -32,10 +32,12 @@ guard :shell do
     if fname =~ /ASTNodes$/
       fname = 'Raskell/Parser/RubyParser'
     end
+    puts "---------------------------------------------------"
     `env #{run_hs} #{fname.gsub(/\//,'.')}Spec #{tail_opts}`
   end
   watch(%r{^test/(.*)(.hs)}) do |m|
     fname = m[1]
+    puts "---------------------------------------------------"
     `env #{run_hs} #{fname.gsub(/\//,'.')} #{tail_opts}`
   end
 end

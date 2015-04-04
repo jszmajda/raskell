@@ -4,12 +4,14 @@ module Raskell.RubyObject
   rubyNumber
 ) where
 
-data RbObject = RbObject {
+data RbObject = Object {
                   _className :: String,
                   _value     :: Integer
                 }
-              | RbFixNum Double
+              | FixNum Double
+              | Float Double
+              | Null
                 deriving (Show, Eq)
 
 rubyNumber :: Double -> RbObject
-rubyNumber = RbFixNum
+rubyNumber = FixNum
