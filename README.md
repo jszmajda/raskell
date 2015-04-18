@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/joshsz/raskell.png?label=ready&title=Ready)](https://waffle.io/joshsz/raskell)
 # Raskell
 
 Lots to do!, Waffling about [Waffle](https://waffle.io/joshsz/raskell)
