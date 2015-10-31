@@ -1,6 +1,10 @@
 [![Stories in Ready](https://badge.waffle.io/joshsz/raskell.png?label=ready&title=Ready)](https://waffle.io/joshsz/raskell)
 # Raskell
 
+A Ruby VM in Haskell
+
+Current status: doesn't do much, but it'll parse some basic ruby :D
+
 Lots to do!, Waffling about [Waffle](https://waffle.io/joshsz/raskell)
 
 # Getting Started
