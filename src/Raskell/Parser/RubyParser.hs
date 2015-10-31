@@ -4,6 +4,7 @@ module Raskell.Parser.RubyParser
 , add
 , numeric
 , expr
+, parseRubySource
 ) where
 
 import Text.Parsec
@@ -13,7 +14,7 @@ import Control.Monad (void)
 import Raskell.Parser.FunctionsAndTypesForParsing (regularParse, parseWithEof, parseWithLeftOver)
 import Raskell.Parser.RbStrings
 import qualified Raskell.ASTNodes as AST
-import Raskell.Parser.Whitespace (lexeme)
+import Raskell.Parser.Whitespace (lexeme, whitespace)
 import Data.Char
 
 {-
@@ -90,3 +91,10 @@ add = do
     void $ lexeme $ char '+'
     rhs <- lexeme expr
     return $ AST.BPlus lhs rhs
+
+parseRubySource :: String -> AST.Expr
+parseRubySource s = unbox $ parse (whitespace >> expr) "" s
+  where
+    unbox :: Either ParseError a -> a
+    unbox (Left _) = error "failed"
+    unbox (Right a) = a

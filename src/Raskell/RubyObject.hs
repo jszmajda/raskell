@@ -1,17 +1,19 @@
 module Raskell.RubyObject
 (
-  RbObject (..),
-  rubyNumber
+  RbObject (..)
+, MethodName
 ) where
+
+
+type MethodName = String
 
 data RbObject = Object {
                   _className :: String,
                   _value     :: Integer
                 }
-              | FixNum Double
+              | FixNum Integer
               | Float Double
               | Null
+              | Kernel
                 deriving (Show, Eq)
 
-rubyNumber :: Double -> RbObject
-rubyNumber = FixNum

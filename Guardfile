@@ -24,7 +24,8 @@
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
 tail_opts = "--color"
-hs_opts = '-package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.4-packages.conf.d -isrc -itest'
+#hs_opts = '-package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.4-packages.conf.d -isrc -itest'
+hs_opts = '-isrc -itest'
 run_hs = "runhaskell #{hs_opts}"
 guard :shell do
   watch(%r{^src/(.*)(.hs)}) do |m|

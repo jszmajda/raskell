@@ -37,6 +37,7 @@ numericParsing =
       fullParse numeric "1_2.23" `shouldBe` AST.Float 12.23
     it "parses a simple float with underscores on the right" $
       fullParse numeric "1_2.2_3" `shouldBe` AST.Float 12.23
+    -- wat
     it "parses rubyTokens with upcase innards" $
       fullParse rubyToken "abCd" `shouldBe` AST.Token "abCd" []
     it "does not parse a rubyToken starting with a digit" $
@@ -100,6 +101,10 @@ exprParsing =
       fullParse expr "print 4" `shouldBe` AST.Token "print" [AST.Int 4]
     it "parses a simple command with a string" $
       fullParse expr "print \"Hello World\"" `shouldBe` AST.Token "print" [AST.String "Hello World"]
+
+-- varAssignParsing :: Spec
+-- varAssignParsing =
+--   describe "var assign parsing" $ do
 
 main :: IO ()
 main = hspec spec

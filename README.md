@@ -26,8 +26,9 @@ ghci -package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.4-packages.conf.d -isrc
 
 # TODO
 
-* parser
-* all the rest!
+* convert `[AST.Expr]` in `ProgramState` modeling to an actual tree with a root node
+
+* more parser
 * look into [Alex](https://www.haskell.org/alex/)
     * [Lua parser with Alex](https://github.com/osa1/language-lua/blob/master/src/Text/Parsec/LTok.hs)
 * look into [happy](https://www.haskell.org/happy/doc/html/index.html)
