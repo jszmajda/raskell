@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/joshsz/raskell.svg)](https://travis-ci.org/joshsz/raskell)
 [![Stories in Ready](https://badge.waffle.io/joshsz/raskell.png?label=ready&title=Ready)](https://waffle.io/joshsz/raskell)
 # Raskell
 
