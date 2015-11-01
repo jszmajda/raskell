@@ -1,6 +1,7 @@
 module Main where
 
 import System.Environment (getArgs)
+import System.Exit (exitWith, ExitCode(..))
 import Raskell.Parser.RubyParser (parseRubySource)
 import Raskell.Evaluator.Runner (runExprIO, emptyProgramContext)
 import Debug.Trace
@@ -14,8 +15,7 @@ main = do
   -- file = head args
   sourceCode <- readFile $ head args
   let parsedAST = parseRubySource sourceCode
-  traceIO $ sourceCode
-  traceIO $ show $ parsedAST
   let programContext = emptyProgramContext
+  -- We can use traceIO to look at what's going on under the hood
   runExprIO ([parsedAST], programContext)
-  putStrLn "ok"
+  exitWith ExitSuccess
