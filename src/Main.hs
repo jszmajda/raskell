@@ -12,6 +12,12 @@ type Source = String
 main :: IO ()
 main = do
   args <- getArgs
+  case (length args) of
+    0 -> interactiveRuby
+    otherwise -> standardRuby args
+
+standardRuby :: [String] -> IO ()
+standardRuby args = do
   -- file = head args
   sourceCode <- readFile $ head args
   let parsedAST = parseRubySource sourceCode
@@ -19,3 +25,7 @@ main = do
   -- We can use traceIO to look at what's going on under the hood
   runExprIO ([parsedAST], programContext)
   exitWith ExitSuccess
+
+interactiveRuby :: IO ()
+interactiveRuby = do
+  error "Interactive Mode not yet supported"
