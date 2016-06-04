@@ -3,3 +3,4 @@ dist
 doit.sh
 rubyspec
 tags
+.stack-work

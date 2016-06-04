@@ -11,12 +11,13 @@ Lots to do!, Waffling about [Waffle](https://waffle.io/joshsz/raskell)
 # Getting Started
 
 ```
-cabal install --enable-tests
-cabal test
+stack build
+stack test
 ```
 
 ## Running an individual test
 
+This doesn't work anymore with stack yet.. need to look into it again
 From the root of the repo:
 
 ```
@@ -26,7 +27,7 @@ runhaskell -package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.3-packages.conf.d -isrc
 ## Getting a useful ghci
 
 ```
-ghci -package-db=.cabal-sandbox/x86_64-osx-ghc-7.8.4-packages.conf.d -isrc
+stack ghci
 ```
 
 # TODO
