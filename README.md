@@ -1,12 +1,12 @@
-[![Build Status](https://travis-ci.org/joshsz/raskell.svg)](https://travis-ci.org/joshsz/raskell)
-[![Stories in Ready](https://badge.waffle.io/joshsz/raskell.png?label=ready&title=Ready)](https://waffle.io/joshsz/raskell)
+[![Build Status](https://travis-ci.org/jszmajda/raskell.svg)](https://travis-ci.org/jszmajda/raskell)
+
 # Raskell
 
 A Ruby VM in Haskell
 
 Current status: doesn't do much, but it'll parse some basic ruby :D
 
-Lots to do!, Waffling about [Waffle](https://waffle.io/joshsz/raskell)
+Lots to do!
 
 # Getting Started
 

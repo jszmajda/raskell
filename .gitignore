@@ -4,3 +4,4 @@ doit.sh
 rubyspec
 tags
 .stack-work
+tags.lock
